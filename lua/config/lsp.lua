@@ -16,7 +16,6 @@ local keymaps = {
   { keys = "<S-k>", func = vim.lsp.buf.hover,           desc = "Hover Documentation",  has = "hoverProvider" },
   { keys = "gd",    func = vim.lsp.buf.definition,      desc = "Goto Definition",      has = "definitionProvider" },
   { keys = "gr",    func = vim.lsp.buf.references,      desc = "Goto References",      has = "referencesProvider" },
-  { keys = "gr",    func = vim.lsp.buf.references,      desc = "Goto References",      has = "referencesProvider" },
   { keys = "gi",    func = vim.lsp.buf.implementation,  desc = "Goto Implementation",  has = "implementationProvider" },
   { keys = "gt",    func = vim.lsp.buf.type_definition, desc = "Goto Type Definition", has = "typeDefinitionProvider" },
   { keys = "gl",    func = vim.lsp.codelens.run,        desc = "Run Codelens",         has = "codeLensProvider" },
