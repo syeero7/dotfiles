@@ -43,10 +43,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    for _, km in ipairs(keymaps) do
-      if not km.has or client.server_capabilities[km.has] then
-        opts = { buffer = buf, desc = "LSP: " .. km.desc, nowait = km.nowait }
-        vim.keymap.set(km.mode or "n", km.keys, km.func, opts)
+    for _, k in ipairs(keymaps) do
+      if not k.has or client.server_capabilities[k.has] then
+        local options = { buffer = buf, desc = "LSP: " .. k.desc, nowait = k.nowait }
+        vim.keymap.set(k.mode or "n", k.keys, k.func, options)
       end
     end
   end,
@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.lsp.enable({
   -- "vtsls",
-  "oxlint", -- Priority linter
+  "oxlint",
   "lua_ls",
   "gopls",
   "zls",
@@ -64,3 +64,38 @@ vim.lsp.enable({
   -- "helm_ls",
   -- "jsonls",
 })
+
+vim.diagnostic.config({
+
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+    },
+  },
+})
+
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
+
+local diagnostics = {
+  { name = "Diagnostic", next = "]d", prev = "[d" },
+  { severity = "ERROR", next = "]e", prev = "[e", name = "Error" },
+  { severity = "WARN", next = "]w", prev = "[w", name = "Warning" },
+}
+
+for _, k in ipairs(diagnostics) do
+  local severity = k.severity and vim.diagnostic.severity[k.severity] or nil
+
+  local toNext = function()
+    vim.diagnostic.jump({ count = 1, float = true, severity = severity })
+  end
+
+  local toPrev = function()
+    vim.diagnostic.jump({ count = -1, float = true, severity = severity })
+  end
+
+  vim.keymap.set("n", k.next, toNext, { desc = "Next " .. k.name })
+  vim.keymap.set("n", k.prev, toPrev, { desc = "Previous " .. k.name })
+end
