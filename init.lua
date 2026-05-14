@@ -7,3 +7,4 @@ require("config.keymaps")
 require("config.lsp")
 
 require("plugins.tree-sitter")
+require("plugins.blink")
