@@ -28,7 +28,12 @@ vim.api.nvim_create_autocmd("InsertEnter", {
         default = { "lsp", "path", "snippets", "buffer" },
       },
       fuzzy = { implementation = "prefer_rust_with_warning" },
-      keymap = { preset = "super-tab" }
+      keymap = {
+        preset = "super-tab",
+
+        ['<CR>'] = { 'select_and_accept', 'fallback' },
+        ['<Esc>'] = { 'cancel', 'fallback' },
+      }
     })
   end,
 })
