@@ -1,10 +1,8 @@
-vim.pack.add(
-  {
-    src = "https://github.com/nvim-treesitter/nvim-treesitter",
-    version = "main",
-    build = ":TSUpdate"
-  }
-)
+vim.pack.add({ {
+  src = "https://github.com/nvim-treesitter/nvim-treesitter",
+  version = "main",
+  build = ":TSUpdate",
+} })
 
 
 local parsers = {
