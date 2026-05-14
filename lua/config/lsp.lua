@@ -54,15 +54,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
 vim.lsp.enable({
-  -- "vtsls",
+  "vtsls",
   "oxlint",
   "lua_ls",
   "gopls",
   "zls",
-  -- "cssls",
-  -- "html",
-  -- "helm_ls",
-  -- "jsonls",
+  "cssls",
+  "html",
+  "jsonls",
+  "codebook"
 })
 
 vim.diagnostic.config({
@@ -81,8 +81,8 @@ vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Diag
 
 local diagnostics = {
   { name = "Diagnostic", next = "]d", prev = "[d" },
-  { severity = "ERROR", next = "]e", prev = "[e", name = "Error" },
-  { severity = "WARN", next = "]w", prev = "[w", name = "Warning" },
+  { severity = "ERROR",  next = "]e", prev = "[e", name = "Error" },
+  { severity = "WARN",   next = "]w", prev = "[w", name = "Warning" },
 }
 
 for _, k in ipairs(diagnostics) do
