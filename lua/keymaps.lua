@@ -12,8 +12,10 @@ map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 map("n", "<leader>qq", "<cmd>q<CR>", { desc = "Quit", silent = true })
+map("n", "<leader>qr", "<cmd>restart<CR>", { desc = "Restart" })
+
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+-- map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 map("n", "<A-a>", "ggVG", { noremap = true, silent = true, desc = "Select all" })
 
@@ -50,6 +52,7 @@ end, { desc = "Quickfix List" })
 
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
+
 
 map("n", "<leader>u", function()
   vim.cmd("packadd nvim.undotree")
