@@ -1,3 +1,52 @@
+vim.pack.add({
+  "https://github.com/neovim/nvim-lspconfig",
+  {
+    src = "https://github.com/nvim-treesitter/nvim-treesitter",
+    version = "main",
+    build = ":TSUpdate",
+  }
+})
+
+local parsers = {
+  "go",
+  "zig",
+  "lua",
+  "javascript",
+  "typescript",
+  "json",
+  "markdown",
+  "bash",
+  "html",
+  "css",
+  "sql"
+}
+
+local tree_sitter = require("nvim-treesitter")
+tree_sitter.setup({})
+
+local installed_parsers = tree_sitter.get_installed()
+local parsers_to_install = {}
+
+for _, parser in ipairs(parsers) do
+  if not vim.tbl_contains(installed_parsers, parser) then
+    table.insert(parsers_to_install, parser)
+  end
+end
+
+if #parsers_to_install > 0 then
+  tree_sitter.install(parsers_to_install)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("tree_sitter_config", { clear = false }),
+  callback = function(args)
+    if vim.list_contains(tree_sitter.get_installed(), vim.treesitter.get_parser(args.buf)) then
+      vim.treesitter.start(args.buf)
+    end
+  end
+})
+
+
 local keymaps = {
   { keys = "<leader>ca", func = vim.lsp.buf.code_action,           desc = "Code Actions" },
   { keys = "<leader>cr", func = vim.lsp.buf.rename,                desc = "Code Rename" },
@@ -29,6 +78,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     if not client then
+      vim.notify("Failed to Attach LSP", vim.log.levels.ERROR)
       return
     end
 
@@ -65,8 +115,8 @@ vim.lsp.enable({
   "codebook"
 })
 
-vim.diagnostic.config({
 
+vim.diagnostic.config({
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = " ",

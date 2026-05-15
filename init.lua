@@ -1,12 +1,7 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-require("config.options")
-require("config.autocmds")
-require("config.keymaps")
-require("config.lsp")
-
-require("plugins.tree-sitter")
-require("plugins.blink")
-require("plugins.conform")
-require("plugins.utils")
+require("options")
+require("autocmds")
+require("keymaps")
+require("lsp")
+require("completion")
+require("formatting")
+require("utils")

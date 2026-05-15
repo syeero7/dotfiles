@@ -11,7 +11,6 @@ map("n", "<leader>bq", ":bdelete<CR>", { desc = "Close buffer" })
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-
 map("n", "<leader>qq", "<cmd>q<CR>", { desc = "Quit", silent = true })
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
