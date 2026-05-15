@@ -3,7 +3,6 @@
 return {
   settings = {
     Lua = {
-      completion = { callSnippet = "Replace" },
       hint = {
         enable = true,
         arrayIndex = "Disable",
@@ -13,12 +12,11 @@ return {
       },
       workspace = {
         checkThirdParty = false,
-        -- library = {
-        --   vim.api.nvim_get_runtime_file("lua", false)[1],
-        --   vim.env.VIMRUNTIME,
-        --   "${3rd}/luv/library",
-        -- },
-        library = vim.api.nvim_get_runtime_file("lua", true),
+        library = {
+          vim.env.VIMRUNTIME,
+          vim.api.nvim_get_runtime_file("lua/lspconfig", false)[1],
+        },
+        -- library = vim.api.nvim_get_runtime_file("lua", true),
       },
     },
   },
