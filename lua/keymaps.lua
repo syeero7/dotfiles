@@ -1,3 +1,8 @@
+-- disable LSP default keymaps
+for _, k in ipairs({ "gra", "gri", "grr", "grn", "grt", "grx" }) do
+  pcall(vim.keymap.del, { "n", "v" }, k)
+end
+
 local map = vim.keymap.set
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -7,6 +12,7 @@ map("n", "<S-h>", ":bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bq", ":bdelete<CR>", { desc = "Close buffer" })
+map("n", "<leader>bo", ":%bdelete|edit #|bd#<CR>", { desc = "Close other buffers" })
 
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
