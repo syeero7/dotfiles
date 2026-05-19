@@ -52,10 +52,15 @@ map("n", "<leader>qr", "<cmd>restart<CR>", { desc = "Restart" })
 map("n", "<leader>qc", "<cmd>mksession!<CR>", { desc = "Clear Session" })
 
 
-function exec_within_project_dir(command)
+function exec_cmd(command, project_dir)
   return function()
     local old_lcd = vim.cmd("lcd")
-    local new_lcd = vim.fs.root(0, ".git") or vim.api.nvim_buf_get_name(0)
+    local new_lcd = os.getenv("HOME")
+
+    if project_dir then
+      new_lcd = vim.fs.root(0, ".git") or vim.api.nvim_buf_get_name(0) or os.getenv("HOME")
+    end
+
     vim.cmd("lcd " .. new_lcd)
     vim.cmd(command)
     vim.cmd("lcd " .. old_lcd)
@@ -66,11 +71,11 @@ map("n", "<leader>e", "<cmd>lua MiniFiles.open()<CR>", { desc = "Explore (root)"
 map("n", "<leader>E", "<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>", { desc = "Explore (file dir)" })
 
 map("n", "<leader>fb", "<cmd>Pick buffers<CR>", { desc = "Buffers" })
-map("n", "<leader>fF", "<cmd>Pick files<CR>", { desc = "Find Files (root)" })
-map("n", "<leader>fg", "<cmd>Pick grep_live<CR>", { desc = "Grep (root)" })
-map("n", "<leader>ff", exec_within_project_dir("Pick files"), { desc = "Find Files (project root)" })
-map("n", "<leader><space>", exec_within_project_dir("Pick files"), { desc = "Find Files (project root)" })
-map("n", "<leader>/", exec_within_project_dir("Pick grep_live"), { desc = "Grep (proje:ct root)" })
+map("n", "<leader>fF", exec_cmd("Pick files"), { desc = "Find Files (root)" })
+map("n", "<leader>fg", exec_cmd("Pick grep_live"), { desc = "Grep (root)" })
+map("n", "<leader>ff", exec_cmd("Pick files", true), { desc = "Find Files (project root)" })
+map("n", "<leader><space>", exec_cmd("Pick files", true), { desc = "Find Files (project root)" })
+map("n", "<leader>/", exec_cmd("Pick grep_live", true), { desc = "Grep (project root)" })
 map("n", "<leader>fh", "<cmd>Pick help<CR>", { desc = "Help" })
 
 mini_hipatterns.setup({
