@@ -55,10 +55,11 @@ map("n", "<leader>qc", "<cmd>mksession!<CR>", { desc = "Clear Session" })
 function exec_cmd(command, project_dir)
   return function()
     local old_lcd = vim.cmd("lcd")
-    local new_lcd = os.getenv("HOME")
+    local new_lcd = vim.fn.getcwd()
 
     if project_dir then
-      new_lcd = vim.fs.root(0, ".git") or vim.api.nvim_buf_get_name(0) or os.getenv("HOME")
+      local root_markers = { ".git", "build.zig", "package.json", "go.mod" }
+      new_lcd = vim.fs.root(0, root_markers) or vim.fs.dirname(vim.api.nvim_buf_get_name(0)) or vim.fn.getcwd()
     end
 
     vim.cmd("lcd " .. new_lcd)
