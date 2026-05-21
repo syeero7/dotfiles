@@ -12,7 +12,7 @@ map("n", "<S-h>", ":bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
 map("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bq", ":bdelete<CR>", { desc = "Close buffer" })
-map("n", "<leader>bo", ":%bdelete|edit #|bd#<CR>", { desc = "Close other buffers" })
+map("n", "<leader>bo", ":w | %bdelete | edit# | bdelete# <CR>", { desc = "Close other buffers" })
 
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
