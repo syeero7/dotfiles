@@ -43,12 +43,12 @@ opt.virtualedit = "block"                       -- Allow cursor to move where th
 opt.winminwidth = 5                             -- Minimum window width
 opt.inccommand = "split"
 
-opt.backup = false                              -- Don't create backup files
-opt.writebackup = false                         -- Don't create backup before writing
-opt.swapfile = false                            -- Don't create swap files
-opt.undofile = true                             -- Persistent undo
+opt.backup = false                                   -- Don't create backup files
+opt.writebackup = false                              -- Don't create backup before writing
+opt.swapfile = false                                 -- Don't create swap files
+opt.undofile = true                                  -- Persistent undo
 opt.undolevels = 10000
-local undodir = vim.fn.expand("~/.vim/undodir") -- Undo directory
+local undodir = vim.fn.stdpath("data") .. "/undodir" -- Undo directory
 opt.undodir = undodir
 if vim.fn.isdirectory(undodir) == 0 then
   vim.fn.mkdir(undodir, "p")
