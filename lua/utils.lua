@@ -12,6 +12,13 @@ require("mini.starter").setup()
 require("mini.indentscope").setup({ symbol = "│" })
 require("mini.statusline").setup()
 require("mini.tabline").setup()
+require("mini.notify").setup({
+  content = {
+    format = function(notif)
+      return notif.msg
+    end
+  }
+})
 local mini_hipatterns = require('mini.hipatterns')
 local mini_clue = require("mini.clue")
 
