@@ -72,7 +72,7 @@ font pango:FiraCode 10
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg, jxl-pixbuf-loader
-output * bg ~/.config/sway/wallpaper.jpg  fill
+output * bg ./wallpaper.jpg  fill
 #
 # Example configuration:
 #
