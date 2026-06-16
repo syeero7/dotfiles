@@ -38,6 +38,10 @@
     //     "default": ""
     // }
   },
+  "sway/window": {
+    "max-length": 50,
+    "separate-outputs": false
+  },
 
   "keyboard-state": {
     "numlock": true,
