@@ -69,13 +69,13 @@ button {
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
   background: inherit;
-  box-shadow: inset 0 -3px #ffffff;
+  box-shadow: inset 0 -3px @foreground;
 }
 
 /* you can set a style on hover for any module like this */
-#pulseaudio:hover {
-  background-color: #a37800;
-}
+/* #pulseaudio:hover { */
+/*   background-color: #a37800; */
+/* } */
 
 #workspaces button {
   padding: 0 6px;
@@ -84,9 +84,9 @@ button:hover {
   border-bottom: 3px solid @background;
 }
 
-#workspaces button:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
+/* #workspaces button:hover { */
+/*   background: rgba(0, 0, 0, 0.2); */
+/* } */
 
 #workspaces button.focused {
   background-color: @gray;
@@ -94,7 +94,7 @@ button:hover {
 }
 
 #workspaces button.urgent {
-  background-color: #eb4d4b;
+  background-color: @red;
 }
 
 #mode {
@@ -180,8 +180,8 @@ label:focus {
   /* background-color: #ecf0f1; */
   /* color: #2d3436; */
 
-  background-color: @white;
-  color: @gray;
+  background-color: @foreground;
+  color: @black;
 }
 
 #cpu {
