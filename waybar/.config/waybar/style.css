@@ -173,6 +173,7 @@ label:focus {
 
 #idle_inhibitor {
   background-color: @gray;
+  min-width: 18px;
 }
 
 #idle_inhibitor.activated {
@@ -229,7 +230,7 @@ label:focus {
 }
 
 #power-profiles-daemon {
-  padding-right: 15px;
+  min-width: 18px;
 }
 
 #power-profiles-daemon.performance {
