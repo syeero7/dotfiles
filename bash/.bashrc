@@ -14,23 +14,8 @@ shopt -s checkwinsize
 
 set -o vi
 
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-  PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
-
-# User specific aliases and functions
-if [ -d ~/.bashrc.d ]; then
-  for rc in ~/.bashrc.d/*; do
-    if [ -f "$rc" ]; then
-      . "$rc"
-    fi
-  done
-fi
-unset rc
 
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then
      source ~/.config/exercism/exercism_completion.bash
@@ -40,22 +25,29 @@ if [ -f ~/zig-bash-completions.bash ]; then
      source ~/zig-bash-completions.bash
 fi
 
+export EDITOR=nvim
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-PATH=$PATH:$(go env GOPATH)/bin
-PATH=$PATH:/usr/local/go/bin
+append_to_path() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        export PATH="$PATH:$1"
+    fi
+}
 
-PATH=$PATH:/usr/local/zig
-PATH=$PATH:/usr/local/zig-dev # zig dev build
+append_to_path $HOME/.local/bin
+append_to_path $HOME/bin
+append_to_path $(go env GOPATH)/bin
+append_to_path /usr/local/go/bin
 
-PATH=$PATH:/opt/nvim/bin
-export EDITOR=nvim
+append_to_path /usr/local/zig
+append_to_path /usr/local/zig-dev # zig dev build
 
-PATH=$PATH:$HOME/.local/language_servers/bin
+append_to_path /opt/nvim/bin
 
-export PATH
+append_to_path $HOME/.local/language_servers/bin
 
 alias gs='git status'
 alias ga='git add'
