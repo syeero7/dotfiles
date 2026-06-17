@@ -53,6 +53,7 @@ alias gaa='git add --all'
 alias gc='git commit'
 alias gl='git log --oneline'
 alias gd='git diff'
+alias gp='git push'
 
 alias ..='cd ..;pwd'
 alias ...='cd ../..;pwd'
@@ -61,6 +62,10 @@ alias ....='cd ../../..;pwd'
 alias tree='tree --dirsfirst -F'
 alias mkdir='mkdir -p -v'
 alias lah='ls -lah'
+alias tah='tree -lah'
+alias mkx='chmod -v +x'
+
+alias zts='zig build test --summary all'
 
 function git_branch() {
     if [ -d .git ] ; then
