@@ -5,6 +5,14 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
+HISTCONTROL=ignoredups
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+shopt -s histappend
+shopt -s checkwinsize
+
+set -o vi
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
