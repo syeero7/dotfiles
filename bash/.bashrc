@@ -51,6 +51,7 @@ PATH=$PATH:/usr/local/zig
 PATH=$PATH:/usr/local/zig-dev # zig dev build
 
 PATH=$PATH:/opt/nvim/bin
+export EDITOR=nvim
 
 PATH=$PATH:$HOME/.local/language_servers/bin
 
@@ -58,4 +59,20 @@ export PATH
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+
+alias gs='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit'
+alias gl='git log --oneline'
+alias gd='git diff'
+
+alias ..='cd ..;pwd'
+alias ...='cd ../..;pwd'
+alias ....='cd ../../..;pwd'
+
+alias tree='tree --dirsfirst -F'
+alias mkdir='mkdir -p -v'
+alias lah='ls -lah'
+
 
