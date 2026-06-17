@@ -57,9 +57,6 @@ PATH=$PATH:$HOME/.local/language_servers/bin
 
 export PATH
 
-eval "$(starship init bash)"
-eval "$(zoxide init bash)"
-
 alias gs='git status'
 alias ga='git add'
 alias gaa='git add --all'
@@ -75,4 +72,17 @@ alias tree='tree --dirsfirst -F'
 alias mkdir='mkdir -p -v'
 alias lah='ls -lah'
 
+function git_branch() {
+    if [ -d .git ] ; then
+        printf "%s""   $(git branch 2> /dev/null | awk '/\*/{print $2}')";
+    fi
+}
 
+function bash_prompt(){
+    PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(git_branch)\[\033[01;32m\]\n> \[\033[00m\]'
+
+}
+
+bash_prompt
+
+eval "$(zoxide init bash)"
