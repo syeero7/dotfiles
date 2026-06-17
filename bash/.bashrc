@@ -12,8 +12,6 @@ HISTFILESIZE=2000
 shopt -s histappend
 shopt -s checkwinsize
 
-set -o vi
-
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
@@ -71,7 +69,7 @@ function git_branch() {
 }
 
 function bash_prompt(){
-    PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(git_branch)\[\033[01;32m\]\n> \[\033[00m\]'
+    PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(git_branch)\n\[\033[01;32m\]> \[\033[00m\]'
 
 }
 
