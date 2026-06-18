@@ -7,7 +7,7 @@ fi
 
 HISTCONTROL=ignoredups
 HISTSIZE=1000
-HISTFILESIZE=2000
+HISTFILESIZE=1000
 
 shopt -s histappend
 shopt -s checkwinsize
@@ -47,25 +47,29 @@ append_to_path /opt/nvim/bin
 
 append_to_path $HOME/.local/language_servers/bin
 
-alias gs='git status'
-alias ga='git add'
-alias gaa='git add --all'
-alias gc='git commit'
-alias gl='git log --oneline'
-alias gd='git diff'
-alias gp='git push'
+function cmd_v() {
+  echo -e '\033[01;7;33m COMMAND: '"$@"'\n\033[00m'; eval $@
+}
 
-alias ..='cd ..;pwd'
-alias ...='cd ../..;pwd'
-alias ....='cd ../../..;pwd'
+alias gs='cmd_v git status'
+alias ga='cmd_v git add'
+alias gaa='cmd_v git add --all'
+alias gc='cmd_v git commit'
+alias gl='cmd_v git log --oneline'
+alias gd='cmd_v git diff'
+alias gp='cmd_v git push'
 
-alias tree='tree --dirsfirst -F'
-alias mkdir='mkdir -p -v'
-alias lah='ls -lah'
-alias tah='tree -lah'
-alias mkx='chmod -v +x'
+alias ..='cmd_v cd ..;pwd'
+alias ...='cmd_v cd ../..;pwd'
+alias ....='cmd_v cd ../../..;pwd'
 
-alias zts='zig build test --summary all'
+alias trd='cmd_v tree --dirsfirst'
+alias mkdir='mkdir -pv'
+alias lah='cmd_v ls -lah'
+alias tah='cmd_v tree -lah'
+alias mkx='cmd_v chmod -v +x'
+
+alias zts='cmd_v zig build test --summary all'
 
 function git_branch() {
     if [ -d .git ] ; then
