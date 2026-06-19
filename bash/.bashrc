@@ -72,9 +72,11 @@ alias mkx='cmd_v chmod -v +x'
 alias zts='cmd_v zig build test --summary all'
 
 function git_branch() {
-    if [ -d .git ] ; then
-        printf "%s""   $(git branch 2> /dev/null | awk '/\*/{print $2}')";
-    fi
+  output="$( git branch --show-current 2> /dev/null)"
+  if [ $? -eq 0 ] ; then
+    echo '   '"$output"
+  fi
+  unset output
 }
 
 function bash_prompt(){
