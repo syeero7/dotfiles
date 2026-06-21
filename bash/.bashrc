@@ -29,6 +29,23 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
+AGENT_ENV="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.env"
+
+start_agent() {
+    ssh-agent -s > "$AGENT_ENV"
+    source "$AGENT_ENV" > /dev/null
+}
+
+if [ -f "$AGENT_ENV" ]; then
+    source "$AGENT_ENV" > /dev/null
+    ps -p "$SSH_AGENT_PID" > /dev/null 2>&1 || start_agent
+else
+    start_agent
+fi
+
+unset AGENT_ENV
+unset -f start_agent
+
 append_to_path() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
         export PATH="$PATH:$1"
