@@ -64,31 +64,33 @@ append_to_path /opt/nvim/bin
 
 append_to_path $HOME/.local/language_servers/bin
 
-function cmd_v() {
+unset -f append_to_path
+
+function _cmd_v() {
   echo -e '\033[01;7;33m COMMAND: '"$@"'\n\033[00m'; eval $@
 }
 
-alias gs='cmd_v git status'
-alias ga='cmd_v git add'
-alias gaa='cmd_v git add --all'
-alias gc='cmd_v git commit'
-alias gl='cmd_v git log --oneline'
-alias gd='cmd_v git diff'
-alias gp='cmd_v git push'
+alias gs='_cmd_v git status'
+alias ga='_cmd_v git add'
+alias gaa='_cmd_v git add --all'
+alias gc='_cmd_v git commit'
+alias gl='_cmd_v git log --oneline'
+alias gd='_cmd_v git diff'
+alias gp='_cmd_v git push'
 
-alias ..='cmd_v cd ..;pwd'
-alias ...='cmd_v cd ../..;pwd'
-alias ....='cmd_v cd ../../..;pwd'
+alias ..='_cmd_v cd ..;pwd'
+alias ...='_cmd_v cd ../..;pwd'
+alias ....='_cmd_v cd ../../..;pwd'
 
-alias trd='cmd_v tree --dirsfirst'
+alias trd='_cmd_v tree --dirsfirst'
 alias mkdir='mkdir -pv'
-alias lah='cmd_v ls -lah'
-alias tah='cmd_v tree -lah'
-alias mkx='cmd_v chmod -v +x'
+alias lah='_cmd_v ls -lah'
+alias tah='_cmd_v tree -lah'
+alias mkx='_cmd_v chmod -v +x'
 
-alias zts='cmd_v zig build test --summary all'
+alias zts='_cmd_v zig build test --summary all'
 
-function git_branch() {
+function _get_git_branch() {
   output="$( git branch --show-current 2> /dev/null)"
   if [ $? -eq 0 ] ; then
     echo '   '"$output"
@@ -96,11 +98,11 @@ function git_branch() {
   unset output
 }
 
-function bash_prompt(){
-    PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(git_branch)\n\[\033[01;32m\]> \[\033[00m\]'
+function _bash_prompt(){
+    PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(_get_git_branch)\n\[\033[01;32m\]> \[\033[00m\]'
 
 }
 
-bash_prompt
+_bash_prompt
 
 eval "$(zoxide init bash)"
