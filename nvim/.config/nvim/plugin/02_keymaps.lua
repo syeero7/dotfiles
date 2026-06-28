@@ -12,28 +12,6 @@ Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>q', desc = 'Session' },
 }
 
-Config.lsp_keymaps = {
-  { keys = "<leader>ca", func = vim.lsp.buf.code_action,           desc = "Code Actions" },
-  { keys = "<leader>cr", func = vim.lsp.buf.rename,                desc = "Code Rename" },
-  { keys = "<leader>cw", func = vim.lsp.buf.workspace_diagnostics, desc = "Workspace Diagnostics" },
-  {
-    keys = "<leader>cl",
-    func = function()
-      if vim.fn.exists(":LspOxlintFixAll") > 0 then
-        vim.cmd("LspOxlintFixAll")
-      end
-      vim.lsp.buf.code_action(
-        { apply = true, context = { only = { "source.fixAll" }, diagnostics = {} } })
-    end,
-    desc = "LSP Fix All",
-  },
-  { keys = "<S-k>", func = vim.lsp.buf.hover,           desc = "Hover Documentation",  has = "hoverProvider" },
-  { keys = "gd",    func = vim.lsp.buf.definition,      desc = "Goto Definition",      has = "definitionProvider" },
-  { keys = "gr",    func = vim.lsp.buf.references,      desc = "Goto References",      has = "referencesProvider" },
-  { keys = "gi",    func = vim.lsp.buf.implementation,  desc = "Goto Implementation",  has = "implementationProvider" },
-  { keys = "gt",    func = vim.lsp.buf.type_definition, desc = "Goto Type Definition", has = "typeDefinitionProvider" },
-  { keys = "gx",    func = vim.lsp.codelens.run,        desc = "Run Codelens",         has = "codeLensProvider" },
-}
 
 Config.set_diagnostics_keymaps = function()
   local diagnostics = {
@@ -76,7 +54,20 @@ map("n", "<leader>bq", function()
   end
 end, { desc = "Close buffer" })
 
-vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Code Rename" })
+map("n", "<leader>cw", vim.lsp.buf.workspace_diagnostics, { desc = "Workspace Diagnostics" })
+map("n", "<S-k>", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+map("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+map("n", "gr", vim.lsp.buf.references, { desc = "Goto References" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+map("n", "gt", vim.lsp.buf.type_definition, { desc = "Goto Type Definition" })
+map("n", "gx", vim.lsp.codelens.run, { desc = "Run Codelens" })
+map("n", "cl", function()
+  if vim.fn.exists(":LspOxlintFixAll") > 0 then vim.cmd("LspOxlintFixAll") end
+  vim.lsp.buf.code_action({ apply = true, context = { only = { "source.fixAll" }, diagnostics = {} } })
+end, { desc = "Fix ALL" })
 
 
 map("n", "<leader>oc", string.format('<Cmd>edit %s<CR>', vim.fn.stdpath('config')), { desc = "Edit Config" })
