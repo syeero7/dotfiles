@@ -2,7 +2,7 @@ _G.Config = {}
 
 vim.pack.add({ 'https://github.com/nvim-mini/mini.nvim' })
 
-local misc = require("misc")
+local misc = require("mini.misc")
 
 -- Execute immediately. Use for what must be executed during startup.
 -- Like colorscheme, statusline, tabline, dashboard, etc.
