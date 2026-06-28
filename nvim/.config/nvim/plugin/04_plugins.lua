@@ -1,0 +1,282 @@
+local add = vim.pack.add
+local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
+
+now(function()
+  local ext3_blocklist = { scm = true, txt = true, yml = true }
+  local ext4_blocklist = { json = true, yaml = true }
+  require('mini.icons').setup({
+    use_file_extension = function(ext, _)
+      return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
+    end,
+  })
+
+  later(MiniIcons.mock_nvim_web_devicons)
+  later(MiniIcons.tweak_lsp_kind)
+end)
+
+
+now(function() require('mini.notify').setup() end)
+now(function() require('mini.statusline').setup() end)
+now(function() require('mini.tabline').setup() end)
+now(function()
+  require('mini.sessions').setup({
+    autoread = false,
+    autowrite = false,
+    directory = '~/.vim/sessions',
+    file = ''
+  })
+end)
+now(function()
+  local starter = require('mini.starter')
+  starter.setup({
+    header = [[
+              ╭╮╭┬─╮╭─╮┬  ┬┬╭┬╮
+              │││├┤ │ │╰┐┌╯││││
+              ╯╰╯╰─╯╰─╯ ╰╯ ┴┴ ┴
+            ]]
+    ,
+    items = {
+      starter.sections.sessions(5, true),
+      starter.sections.builtin_actions(),
+      starter.sections.pick(),
+    },
+    content_hooks = {
+      function(content)
+        local blank_content_line = { { type = 'empty', string = '' } }
+        local section_coords = starter.content_coords(content, 'section')
+
+        for i = #section_coords, 1, -1 do
+          table.insert(content, section_coords[i].line + 1, blank_content_line)
+        end
+        return content
+      end,
+      starter.gen_hook.adding_bullet("» "),
+      starter.gen_hook.aligning('center', 'center'),
+    },
+  })
+  Config.new_autocmd("starter", "MiniStarterOpened", function()
+    if vim.bo.filetype == 'ministarter' and vim.api.nvim_buf_get_name(0):match('Starter') then
+      vim.api.nvim_buf_set_keymap(0, 'n', 'j', "<Cmd>lua MiniStarter.update_current_item('next')<CR>",
+        { noremap = true, silent = true })
+      vim.api.nvim_buf_set_keymap(0, 'n', 'k', "<Cmd>lua MiniStarter.update_current_item('prev')<CR>",
+        { noremap = true, silent = true })
+    end
+  end)
+end)
+
+now_if_args(function()
+  local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
+  local process_items = function(items, base)
+    return MiniCompletion.default_process_items(items, base, process_items_opts)
+  end
+  require('mini.completion').setup({
+    lsp_completion = {
+      source_func = 'omnifunc',
+      auto_setup = false,
+      process_items = process_items,
+    },
+  })
+  local on_attach = function(ev)
+    vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
+
+  Config.new_autocmd('LspAttach', nil, on_attach, "Set 'omnifunc'")
+
+  vim.lsp.config('*', {
+    capabilities = vim.tbl_extend("keep",
+      MiniCompletion.get_lsp_capabilities(),
+      vim.lsp.protocol.make_client_capabilities()
+    )
+  })
+end)
+
+later(function() require('mini.extra').setup() end)
+
+later(function()
+  local ai = require('mini.ai')
+  ai.setup({
+    custom_textobjects = {
+      B = MiniExtra.gen_ai_spec.buffer(),
+      F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+    },
+
+    search_method = 'cover',
+  })
+end)
+
+later(function()
+  local miniclue = require('mini.clue')
+  -- stylua: ignore
+  miniclue.setup({
+    clues = {
+      Config.leader_group_clues,
+      miniclue.gen_clues.builtin_completion(),
+      miniclue.gen_clues.g(),
+      miniclue.gen_clues.marks(),
+      miniclue.gen_clues.registers(),
+      miniclue.gen_clues.square_brackets(),
+      miniclue.gen_clues.windows({ submode_resize = true }),
+      miniclue.gen_clues.z(),
+    },
+
+    triggers = {
+      { mode = { 'n', 'x' }, keys = '<Leader>' }, -- Leader triggers
+      { mode = 'n',          keys = '\\' },       -- mini.basics
+      { mode = { 'n', 'x' }, keys = '[' },        -- mini.bracketed
+      { mode = { 'n', 'x' }, keys = ']' },
+      { mode = 'i',          keys = '<C-x>' },    -- Built-in completion
+      { mode = { 'n', 'x' }, keys = 'g' },        -- `g` key
+      { mode = { 'n', 'x' }, keys = "'" },        -- Marks
+      { mode = { 'n', 'x' }, keys = '`' },
+      { mode = { 'n', 'x' }, keys = '"' },        -- Registers
+      { mode = { 'i', 'c' }, keys = '<C-r>' },
+      { mode = 'n',          keys = '<C-w>' },    -- Window commands
+      { mode = { 'n', 'x' }, keys = 's' },        -- `s` key (mini.surround, etc.)
+      { mode = { 'n', 'x' }, keys = 'z' },        -- `z` key
+    },
+  })
+end)
+
+later(function() require('mini.cmdline').setup() end)
+later(function() require('mini.diff').setup() end)
+later(function()
+  local hipatterns = require('mini.hipatterns')
+  local hi_words = MiniExtra.gen_highlighter.words
+  hipatterns.setup({
+    highlighters = {
+      fixme = hi_words({ 'FIXME' }, 'MiniHipatternsFixme'),
+      hack = hi_words({ 'HACK', }, 'MiniHipatternsHack'),
+      todo = hi_words({ 'TODO', }, 'MiniHipatternsTodo'),
+      note = hi_words({ 'NOTE', }, 'MiniHipatternsNote'),
+
+      hex_color = hipatterns.gen_highlighter.hex_color(),
+    },
+  })
+end)
+
+later(function() require('mini.indentscope').setup({ symbol = "│" }) end)
+later(function() require('mini.pairs').setup({ modes = { command = true } }) end)
+later(function() require('mini.pick').setup() end)
+later(function() require('mini.surround').setup() end)
+later(function()
+  local latex_patterns = { 'latex/**/*.json', '**/latex.json' }
+  local lang_patterns = {
+    tex = latex_patterns,
+    plaintex = latex_patterns,
+    markdown_inline = { 'markdown.json' },
+  }
+
+  local snippets = require('mini.snippets')
+  snippets.setup({
+    snippets = {
+      snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
+    },
+  })
+
+  MiniSnippets.start_lsp_server()
+end)
+
+
+
+
+
+now_if_args(function()
+  -- Define hook to update tree-sitter parsers after plugin is updated
+  local ts_update = function() vim.cmd('TSUpdate') end
+  Config.on_packchanged('nvim-treesitter', { 'update' }, ts_update, ':TSUpdate')
+
+  add({
+    {
+      src = "https://github.com/nvim-treesitter/nvim-treesitter",
+      version = "main",
+      build = ":TSUpdate",
+    },
+    'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
+  })
+
+  local parsers = {
+    "go",
+    "zig",
+    "lua",
+    "javascript",
+    "typescript",
+    "json",
+    "markdown",
+    "bash",
+    "html",
+    "css",
+    "sql"
+  }
+
+  local tree_sitter = require("treesitter")
+  tree_sitter.setup({})
+
+  local installed = tree_sitter.get_installed()
+  local to_install = {}
+
+  for _, parser in ipairs(parsers) do
+    if not vim.tbl_contains(installed, parser) then table.insert(to_install, parser) end
+  end
+
+  if #to_install > 0 then tree_sitter.install(to_install) end
+  Config.new_autocmd("FileType", nil, function(args)
+    if vim.list_contains(tree_sitter.get_installed(), vim.treesitter.get_parser(args.buf)) then
+      vim.treesitter.start(args.buf)
+    end
+  end)
+end)
+
+now_if_args(function()
+  add({ 'https://github.com/neovim/nvim-lspconfig' })
+
+  vim.lsp.enable({
+    "vtsls",
+    "oxlint",
+    "lua_ls",
+    "gopls",
+    "zls",
+    "cssls",
+    "html",
+    "jsonls",
+    "codebook"
+  })
+
+  vim.diagnostic.config({
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = " ",
+        [vim.diagnostic.severity.WARN] = " ",
+        [vim.diagnostic.severity.INFO] = " ",
+        [vim.diagnostic.severity.HINT] = " ",
+      },
+    },
+  })
+  Config.set_diagnostics_keymaps()
+end)
+
+later(function()
+  add({ 'https://github.com/stevearc/conform.nvim' })
+
+  require('conform').setup({
+    default_format_opts = {
+      lsp_format = 'fallback',
+    },
+
+    formatters_by_ft = {
+      -- lua = { "stylua" },
+      go = { "gofmt" },
+      -- python = { "ruff_format", "isort", "black", stop_after_first = true },
+      json = { "oxfmt" },
+      jsonc = { "oxfmt" },
+      javascript = { "oxfmt" },
+      typescript = { "oxfmt" },
+      javascriptreact = { "oxfmt" },
+      typescriptreact = { "oxfmt" },
+      css = { "oxfmt" },
+      html = { "oxfmt" },
+      astro = { "oxfmt" },
+      yaml = { "oxfmt" },
+      markdown = { "oxfmt" },
+    },
+  })
+end)
