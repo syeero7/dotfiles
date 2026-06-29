@@ -15,6 +15,7 @@ now(function()
 end)
 
 
+now(function() require('mini.files').setup() end)
 now(function() require('mini.notify').setup() end)
 now(function() require('mini.statusline').setup() end)
 now(function() require('mini.tabline').setup() end)
@@ -28,40 +29,24 @@ now(function()
 end)
 now(function()
   local starter = require('mini.starter')
+  local ascii_art = {
+	[[                                                    ]],
+	[[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+	[[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+	[[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+	[[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+	[[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+	[[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+	[[                                                    ]], }
+
   starter.setup({
-    header = [[
-              ╭╮╭┬─╮╭─╮┬  ┬┬╭┬╮
-              │││├┤ │ │╰┐┌╯││││
-              ╯╰╯╰─╯╰─╯ ╰╯ ┴┴ ┴
-            ]]
-    ,
+    header = table.concat(ascii_art,"\n"),
     items = {
       starter.sections.sessions(5, true),
       starter.sections.builtin_actions(),
       starter.sections.pick(),
     },
-    content_hooks = {
-      function(content)
-        local blank_content_line = { { type = 'empty', string = '' } }
-        local section_coords = starter.content_coords(content, 'section')
-
-        for i = #section_coords, 1, -1 do
-          table.insert(content, section_coords[i].line + 1, blank_content_line)
-        end
-        return content
-      end,
-      starter.gen_hook.adding_bullet("» "),
-      starter.gen_hook.aligning('center', 'center'),
-    },
   })
-  Config.new_autocmd("starter", "MiniStarterOpened", function()
-    if vim.bo.filetype == 'ministarter' and vim.api.nvim_buf_get_name(0):match('Starter') then
-      vim.api.nvim_buf_set_keymap(0, 'n', 'j', "<Cmd>lua MiniStarter.update_current_item('next')<CR>",
-        { noremap = true, silent = true })
-      vim.api.nvim_buf_set_keymap(0, 'n', 'k', "<Cmd>lua MiniStarter.update_current_item('prev')<CR>",
-        { noremap = true, silent = true })
-    end
-  end)
 end)
 
 now_if_args(function()
@@ -176,10 +161,6 @@ later(function()
   MiniSnippets.start_lsp_server()
 end)
 
-
-
-
-
 now_if_args(function()
   -- Define hook to update tree-sitter parsers after plugin is updated
   local ts_update = function() vim.cmd('TSUpdate') end
@@ -208,7 +189,7 @@ now_if_args(function()
     "sql"
   }
 
-  local tree_sitter = require("treesitter")
+  local tree_sitter = require("nvim-treesitter")
   tree_sitter.setup({})
 
   local installed = tree_sitter.get_installed()
@@ -274,7 +255,6 @@ later(function()
       typescriptreact = { "oxfmt" },
       css = { "oxfmt" },
       html = { "oxfmt" },
-      astro = { "oxfmt" },
       yaml = { "oxfmt" },
       markdown = { "oxfmt" },
     },
