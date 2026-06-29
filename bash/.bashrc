@@ -29,6 +29,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
+export PNPM_HOME="$HOME/.local/share/pnpm"
+if [[ ":$PATH:" != *":$PNPM_HOME/bin:"* ]]; then
+    export PATH="$PNPM_HOME/bin:$PATH"
+fi
+
 AGENT_ENV="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.env"
 
 start_agent() {
@@ -106,3 +111,4 @@ function _bash_prompt(){
 _bash_prompt
 
 eval "$(zoxide init bash)"
+
