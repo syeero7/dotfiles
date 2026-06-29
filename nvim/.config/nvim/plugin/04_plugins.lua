@@ -30,17 +30,18 @@ end)
 now(function()
   local starter = require('mini.starter')
   local ascii_art = {
-	[[                                                    ]],
-	[[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
-	[[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
-	[[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
-	[[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
-	[[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
-	[[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
-	[[                                                    ]], }
+    [[                                                    ]],
+    [[ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+    [[ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+    [[ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+    [[ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+    [[ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+    [[ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+    [[                                                    ]],
+  }
 
   starter.setup({
-    header = table.concat(ascii_art,"\n"),
+    header = table.concat(ascii_art, "\n"),
     items = {
       starter.sections.sessions(5, true),
       starter.sections.builtin_actions(),
@@ -258,5 +259,53 @@ later(function()
       yaml = { "oxfmt" },
       markdown = { "oxfmt" },
     },
+
+    format_on_save = function(buf)
+      local ignore_filetypes = { "sql" }
+      if vim.tbl_contains(ignore_filetypes, vim.bo[buf].filetype) then
+        return
+      end
+
+      if vim.g.disable_autoformat or vim.b[buf].disable_autoformat then
+        return
+      end
+
+      if vim.api.nvim_buf_get_name(buf):match("/node_modules/") then
+        return
+      end
+
+      return { timeout_ms = 500, lsp_format = "fallback" }
+    end
   })
+
+  vim.api.nvim_create_user_command("FormatDisable", function(opts)
+    if opts.bang then
+      vim.b.disable_autoformat = true
+    else
+      vim.g.disable_autoformat = true
+    end
+    vim.notify("Autoformat disabled" .. (opts.bang and " (buffer)" or " (global)"), vim.log.levels.WARN)
+  end, { desc = "Disable autoformat-on-save", bang = true })
+
+  vim.api.nvim_create_user_command("FormatEnable", function()
+    vim.b.disable_autoformat = false
+    vim.g.disable_autoformat = false
+    vim.notify("Autoformat enabled", vim.log.levels.INFO)
+  end, { desc = "Re-enable autoformat-on-save" })
+
+  vim.keymap.set("n", "<leader>of", function()
+    if vim.b.disable_autoformat or vim.g.disable_autoformat then
+      vim.cmd("FormatEnable")
+    else
+      vim.cmd("FormatDisable")
+    end
+  end, { desc = "Toggle Autoformat" })
+
+  vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+    require("conform").format({ async = true }, function(err, did_edit)
+      if not err and did_edit then
+        vim.notify("Code formatted", vim.log.levels.INFO, { title = "Conform" })
+      end
+    end)
+  end, { desc = "Format buffer" })
 end)
