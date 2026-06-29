@@ -1,5 +1,5 @@
 {
-  "$schema": ".nvm/versions/node/v24.15.0/lib/node_modules/oxfmt/configuration_schema.json",
+  "$schema": ".json-schema/oxfmt-v0.56.json",
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
