@@ -220,6 +220,7 @@ now_if_args(function()
     "zls",
     "cssls",
     "html",
+    "svelte",
     "jsonls",
     "codebook"
   })
@@ -255,6 +256,7 @@ later(function()
       typescript = { "oxfmt" },
       javascriptreact = { "oxfmt" },
       typescriptreact = { "oxfmt" },
+      svelte = { "oxfmt" },
       css = { "oxfmt" },
       html = { "oxfmt" },
       yaml = { "oxfmt" },
