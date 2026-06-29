@@ -15,13 +15,22 @@ shopt -s checkwinsize
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-if [ -f ~/.config/exercism/exercism_completion.bash ]; then
-     source ~/.config/exercism/exercism_completion.bash
-fi
+COMPLETIONS_DIR="$HOME/.bash-completions.d"
 
-if [ -f ~/zig-bash-completions.bash ]; then
-     source ~/zig-bash-completions.bash
+if [ -d "$COMPLETIONS_DIR" ]; then
+  _dir_stat="$(stat -c '%a' "$COMPLETIONS_DIR")"
+    if [  "$_dir_stat" -eq 700 ] || [ "$_dir_stat" -eq 755 ]; then
+
+        while IFS= read -r -d '' file; do
+            if [ ! -N "$file" ] && [ -r "$file" ]; then
+                source "$file"
+            fi
+        done < <(find "$COMPLETIONS_DIR" -maxdepth 1 -type f -name "*.bash" -print0 2>/dev/null)
+        
+    fi
+  unset _dir_stat
 fi
+unset COMPLETIONS_DIR
 
 export EDITOR=nvim
 
