@@ -45,6 +45,7 @@ now(function()
     items = {
       starter.sections.sessions(5, true),
       starter.sections.builtin_actions(),
+      starter.sections.recent_files(5, nil, false),
       starter.sections.pick(),
     },
   })
