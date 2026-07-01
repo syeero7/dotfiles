@@ -184,6 +184,7 @@ now_if_args(function()
     "javascript",
     "typescript",
     "json",
+    "svelte",
     "markdown",
     "bash",
     "html",
@@ -192,18 +193,18 @@ now_if_args(function()
   }
 
   local tree_sitter = require("nvim-treesitter")
-  tree_sitter.setup({})
-
-  local installed = tree_sitter.get_installed()
   local to_install = {}
 
   for _, parser in ipairs(parsers) do
-    if not vim.tbl_contains(installed, parser) then table.insert(to_install, parser) end
+    if not vim.tbl_contains(tree_sitter.get_installed(), parser) then
+      table.insert(to_install, parser)
+    end
   end
 
   if #to_install > 0 then tree_sitter.install(to_install) end
+
   Config.new_autocmd("FileType", nil, function(args)
-    if vim.list_contains(tree_sitter.get_installed(), vim.treesitter.get_parser(args.buf)) then
+    if vim.list_contains(tree_sitter.get_installed(), args.match) then
       vim.treesitter.start(args.buf)
     end
   end)
