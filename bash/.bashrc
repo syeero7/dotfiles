@@ -32,7 +32,7 @@ if [ -d "$COMPLETIONS_DIR" ]; then
 fi
 unset COMPLETIONS_DIR
 
-export EDITOR=nvim
+export EDITOR="$(which nvim)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
@@ -102,6 +102,7 @@ alias lah='_cmd_v ls -lah'
 alias tah='_cmd_v tree -lah'
 alias mkx='_cmd_v chmod -v +x'
 
+alias aw='_cmd_v alacritty msg create-window --working-directory $PWD'
 alias zts='_cmd_v zig build test --summary all'
 
 function _get_git_branch() {
