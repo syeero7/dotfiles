@@ -87,7 +87,7 @@ later(function()
       F = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
     },
 
-    search_method = 'cover',
+    -- search_method = 'cover',
   })
 end)
 
