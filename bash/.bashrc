@@ -66,17 +66,17 @@ append_to_path() {
     fi
 }
 
-append_to_path $HOME/.local/bin
-append_to_path $HOME/bin
-append_to_path $(go env GOPATH)/bin
-append_to_path /usr/local/go/bin
+append_to_path "$HOME/.local/bin"
+append_to_path "$HOME/bin"
+append_to_path "$HOME/go/bin"
+append_to_path "/usr/local/go/bin"
 
-append_to_path /usr/local/zig
-append_to_path /usr/local/zig-dev # zig dev build
+append_to_path "/usr/local/zig"
+append_to_path "/usr/local/zig-dev" # zig dev build
 
-append_to_path /opt/nvim/bin
+append_to_path "/opt/nvim/bin"
 
-append_to_path $HOME/.local/language_servers/bin
+append_to_path "$HOME/.local/language_servers/bin"
 
 unset -f append_to_path
 
