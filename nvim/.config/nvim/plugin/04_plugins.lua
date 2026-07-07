@@ -63,6 +63,14 @@ now_if_args(function()
       process_items = process_items,
     },
   })
+
+  _G.cr_action = function()
+    if vim.fn.complete_info()['selected'] ~= -1 then return '\25' end
+    return MiniPairs.cr()
+  end
+
+  vim.keymap.set('i', '<CR>', 'v:lua.cr_action()', { expr = true })
+
   local on_attach = function(ev)
     vim.bo[ev.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
   end
