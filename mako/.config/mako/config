@@ -1,0 +1,25 @@
+anchor=top-right
+sort=-time
+font=Hack Nerd Font, monospace 10
+background-color=#1a1b26
+text-color=#a9b1d6
+width=320
+margin=8
+padding=10
+border-size=2
+border-color=#7aa2f7
+border-radius=2
+group-by=summary
+max-visible=3
+default-timeout=2500
+layer=overlay
+
+[grouped]
+format=<b>%s</b>\n%b
+
+[urgency=normal]
+border-color=#ad8ee6
+
+[urgency=critical]
+border-color=#f7768e
+default-timeout=0
