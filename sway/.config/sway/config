@@ -35,6 +35,10 @@ assign [app_id=".*-dev-linux-amd64$"] number $ws4
 # assign [app_id=""] $ws number < >
 # assign [class=""] $ws number < >
 
+# --- Auto Start ---
+exec nm-applet --indicator
+exec mako
+
 # --- Styles ---
 font pango:'Hack Nerd Font' 16
 output * bg ./wallpaper.jpg  fill
