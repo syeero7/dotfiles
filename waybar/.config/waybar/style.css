@@ -12,7 +12,7 @@
 @define-color orange   #f0932b;
 
 * {
-  font-family:"Hack Nerd Font", "Noto Sans Mono", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
+  font-family: "Hack Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
   font-size: 1em;
   font-weight: 500;
 }
@@ -71,7 +71,7 @@ button:hover {
 
 #mode {
   background-color: @gray;
-  font-weight:600;
+  font-weight: 600;
 }
 
 #clock,
@@ -136,7 +136,7 @@ label:focus {
   background-color: @black;
 }
 
-#idle_inhibitor ,
+#idle_inhibitor,
 #custom-power,
 #power-profiles-daemon {
   min-width: 24px;
@@ -181,11 +181,9 @@ label:focus {
   color: @gray;
 }
 
-
 #power-profiles-daemon.performance {
   color: @red;
   padding: 0 3px;
-
 }
 
 #power-profiles-daemon.balanced {
@@ -210,7 +208,7 @@ label:focus {
 }
 
 #temperature {
-  color:@orange;
+  color: @orange;
   margin: 0 0 0 0.5em;
 }
 
@@ -219,8 +217,8 @@ label:focus {
 }
 
 #scratchpad {
-  background:@gray;
-  color:@white;
+  background: @gray;
+  color: @white;
 }
 
 #scratchpad.empty {
@@ -228,6 +226,6 @@ label:focus {
 }
 
 #custom-power {
-  padding:0 0 4px 4px;
-color: @red;
+  padding: 0 0 4px 4px;
+  color: @red;
 }

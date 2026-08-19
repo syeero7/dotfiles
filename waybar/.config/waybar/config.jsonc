@@ -5,7 +5,7 @@
   "modules-center": ["sway/window"],
   "modules-right": [
     "network",
-"group/hardware",
+    "group/hardware",
     "pulseaudio",
     "clock",
     "battery",
@@ -60,7 +60,7 @@
   },
   "clock": {
     "format": "{:%I:%M %p}",
-    "timezone":"Asia/Colombo",
+    "timezone": "Asia/Colombo",
     "rotate": 0,
     // "format-alt": "{  %d·%m·%y}",
     "tooltip-format": "<span background='#1a1b26'>{calendar}</span>",
@@ -75,7 +75,7 @@
     }
   },
   "cpu": {
-    "format": "{usage}% ",
+    "format": "{usage}% "
   },
   "memory": {
     "format": "{used}GiB "
@@ -155,7 +155,7 @@
     "format": "⏻ ",
     "tooltip": false,
     "menu": "on-click",
-    "menu-file": "$HOME/.config/waybar/power_menu.xml", 
+    "menu-file": "$HOME/.config/waybar/power_menu.xml",
     "menu-actions": {
       "shutdown": "systemctl poweroff",
       "reboot": "systemctl reboot",
@@ -163,13 +163,13 @@
       "hibernate": "systemctl hibernate"
     }
   },
- "group/hardware": {
+  "group/hardware": {
     "orientation": "inherit",
     "modules": ["cpu", "memory", "temperature"],
     "drawer": {
-        "transition-duration": 300,
-        "transition-left-to-right": false,
-        "click-to-reveal": true
+      "transition-duration": 300,
+      "transition-left-to-right": false,
+      "click-to-reveal": true
     }
   }
 }
