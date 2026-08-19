@@ -26,7 +26,7 @@ if [ -d "$COMPLETIONS_DIR" ]; then
                 source "$file"
             fi
         done < <(find "$COMPLETIONS_DIR" -maxdepth 1 -type f -name "*.bash" -print0 2>/dev/null)
-        
+
     fi
   unset _dir_stat
 fi
@@ -69,14 +69,6 @@ append_to_path() {
 append_to_path "$HOME/.local/bin"
 append_to_path "$HOME/bin"
 append_to_path "$HOME/go/bin"
-append_to_path "/usr/local/go/bin"
-
-append_to_path "/usr/local/zig"
-append_to_path "/usr/local/zig-dev" # zig dev build
-
-append_to_path "/opt/nvim/bin"
-
-append_to_path "$HOME/.local/language_servers/bin"
 
 unset -f append_to_path
 
