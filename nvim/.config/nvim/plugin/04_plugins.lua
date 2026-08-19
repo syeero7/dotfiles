@@ -272,6 +272,45 @@ later(function()
       markdown = { "oxfmt" },
     },
 
+    formatters = {
+      oxfmt = {
+        args = function(_, ctx)
+          local search_dir = ctx.dirname or vim.fn.getcwd()
+          local git_cmd = "git -C " .. vim.fn.shellescape(search_dir) .. " rev-parse --show-toplevel"
+          local git_root = vim.fn.systemlist(git_cmd)[1]
+          local config_filenames = { ".oxfmtrc.json", ".oxfmtrc.jsonc" }
+          local project_config = nil
+
+          if git_root and vim.fn.isdirectory(git_root) == 1 then
+            for _, name in ipairs(config_filenames) do
+              local candidate = git_root .. "/" .. name
+              if vim.fn.filereadable(candidate) == 1 then
+                project_config = candidate
+                break
+              end
+            end
+          end
+
+          -- fallback to global ~/.oxfmtrc.jsonc or ~/.oxfmtrc.json
+          if not project_config then
+            for _, name in ipairs(config_filenames) do
+              local candidate = vim.fn.expand("~/" .. name)
+              if vim.fn.filereadable(candidate) == 1 then
+                project_config = candidate
+                break
+              end
+            end
+          end
+
+          local args = { "--stdin-filepath", ctx.filename }
+          if project_config then
+            vim.list_extend(args, { "--config", project_config })
+          end
+          return args
+        end,
+      },
+    },
+
     format_on_save = function(buf)
       local ignore_filetypes = { "sql" }
       if vim.tbl_contains(ignore_filetypes, vim.bo[buf].filetype) then
