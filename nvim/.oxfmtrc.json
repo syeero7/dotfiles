@@ -1,5 +1,5 @@
 {
-  "$schema": ".json-schema/oxfmt-v0.56.json",
+  "$schema": ".oxfmt_config_schema.json",
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
