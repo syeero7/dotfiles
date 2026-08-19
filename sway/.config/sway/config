@@ -40,7 +40,7 @@ exec nm-applet --indicator
 exec mako
 
 # --- Styles ---
-font pango:'Hack Nerd Font' 16
+font pango:'Hack Nerd Font' 12
 output * bg ./wallpaper.jpg  fill
 
 # Removing titles
