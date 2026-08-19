@@ -8,9 +8,10 @@
 "group/hardware",
     "pulseaudio",
     "clock",
-    "idle_inhibitor",
     "battery",
-    "tray"
+    "idle_inhibitor",
+    "tray",
+    "custom/power"
   ],
 
   "sway/workspaces": {
@@ -74,18 +75,17 @@
     }
   },
   "cpu": {
-    "format": "  {usage}%",
-    "tooltip": false
+    "format": "{usage}% ",
   },
   "memory": {
-    "format": "  {used}GiB"
+    "format": "{used}GiB "
   },
   "temperature": {
     // "thermal-zone": 2,
     // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-    "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
-    "format": "{icon} {temperatureC}°C",
+    "critical-threshold": 80,
+    "format": "{temperatureC}°C {icon}",
     "format-icons": ["", "", ""]
   },
   "backlight": {
@@ -126,7 +126,7 @@
     "interval": 1,
     "format-disconnected": "󰖪 ",
     "tooltip-format-disconnected": "Disconnected",
-    "format": " {bandwidthDownBytes}",
+    "format": "{bandwidthDownBytes} ",
     "tooltip-format": "Network: <b>{essid}</b>\nSignal Strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nUpload Speed: <b>{bandwidthUpBytes}</b>"
     // "format": "<span foreground='#f7768e'> {bandwidthDownBytes}</span>  <span foreground='#0db9d7'> {bandwidthUpBytes}</span>",
     // "format-ethernet": "",
@@ -139,7 +139,7 @@
     "format-bluetooth-muted": " {icon} {format_source}",
     "format-muted": " {format_source}",
     "format-source": "{volume}% ",
-    "format-source-muted": "",
+    "format-source-muted": "v",
     "format-icons": {
       "headphone": "",
       "hands-free": "",
