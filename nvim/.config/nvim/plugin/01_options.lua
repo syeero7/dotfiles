@@ -1,7 +1,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-Config.now(function() vim.cmd.colorscheme("catppuccin") end)
+Config.now(function()
+  vim.pack.add({ "https://github.com/folke/tokyonight.nvim" })
+  vim.cmd.colorscheme("tokyonight-moon")
+end)
 
 local opt                        = vim.opt
 
