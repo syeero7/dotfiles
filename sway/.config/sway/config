@@ -39,6 +39,9 @@ assign [app_id=".*-dev-linux-amd64$"] number $ws4
 exec nm-applet --indicator
 exec mako
 
+# mute microphone
+exec pactl set-source-mute "$(pactl get-default-source)" true
+
 # --- Styles ---
 font pango:'Hack Nerd Font' 12
 output * bg ./wallpaper.jpg  fill
