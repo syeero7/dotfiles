@@ -231,7 +231,8 @@ now_if_args(function()
     "html",
     "svelte",
     "jsonls",
-    "codebook"
+    "codebook",
+    "mpls"
   })
 
   vim.diagnostic.config({
