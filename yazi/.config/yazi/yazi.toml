@@ -1,0 +1,15 @@
+#:schema https://yazi-rs.github.io/schemas/yazi.json
+
+[mgr]
+show_hidden = true
+
+[opener]
+edit = [
+	{ run = "nvim %s", desc = "Neovim", for = "unix", block = true },
+	{ run = "nvim --clean %s", desc = "Neovim --clean", for = "unix", block = true },
+]
+
+[plugin]
+preloaders = []
+previewers = [{ mime = "folder/*", run = "folder" }]
+

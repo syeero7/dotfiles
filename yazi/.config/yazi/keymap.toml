@@ -1,0 +1,13 @@
+#:schema https://yazi-rs.github.io/schemas/keymap.json
+
+[mgr]
+prepend_keymap = [
+	{ on = "O",         run = "open",                        desc = "Open selected files" },
+	{ on = "o",         run = "open --interactive",          desc = "Open selected files interactively" },
+]
+
+append_keymap = [
+  { on = "!", for = "unix", run = 'shell "$SHELL" --block', desc = "Open $SHELL here" },
+]
+
+
