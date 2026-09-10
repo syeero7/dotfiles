@@ -8,6 +8,7 @@ prepend_keymap = [
 
 append_keymap = [
   { on = "!", for = "unix", run = 'shell "$SHELL" --block', desc = "Open $SHELL here" },
+	{ on = [ "g", "m" ], run = "cd /mnt", desc = "Go to /mnt" },
 ]
 
 
