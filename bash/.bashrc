@@ -45,6 +45,29 @@ fi
 
 AGENT_ENV="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.env"
 
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+  --highlight-line \
+  --info=inline-right \
+  --ansi \
+  --border=none \
+  --color=bg+:#1a1b26 \
+  --color=bg:#1e2030 \
+  --color=border:#ad8ee6 \
+  --color=fg:#c8d3f5 \
+  --color=gutter:#1e2030 \
+  --color=header:#e0af68 \
+  --color=hl+:#7aa2f7 \
+  --color=hl:#7aa2f7 \
+  --color=info:#444b6a \
+  --color=marker:#f7768e \
+  --color=pointer:#f7768e \
+  --color=prompt:#7aa2f7 \
+  --color=query:#c8d3f5:regular \
+  --color=scrollbar:#ad8ee6 \
+  --color=separator:#e0af68 \
+  --color=spinner:#f7768e \
+"
+
 start_agent() {
     ssh-agent -s > "$AGENT_ENV"
     source "$AGENT_ENV" > /dev/null
