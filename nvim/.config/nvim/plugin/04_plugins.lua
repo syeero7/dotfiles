@@ -270,6 +270,7 @@ later(function()
       css = { "oxfmt" },
       html = { "oxfmt" },
       yaml = { "oxfmt" },
+      toml = { "oxfmt" },
       markdown = { "oxfmt" },
     },
 
