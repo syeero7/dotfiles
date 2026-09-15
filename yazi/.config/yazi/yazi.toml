@@ -5,8 +5,28 @@ show_hidden = true
 
 [opener]
 edit = [
-	{ run = "nvim %s", desc = "Neovim", for = "unix", block = true },
-	{ run = "nvim --clean %s", desc = "Neovim --clean", for = "unix", block = true },
+  { run = "nvim %s", desc = "Neovim", for = "unix", block = true },
+  { run = "nvim --clean %s", desc = "Neovim --clean", for = "unix", block = true },
+]
+execute = [
+  { run = "%s", desc = "Run Executable", orphan = true, for = "unix" },
+  { run = "chmod +x %s", desc = "Make Executable", for = "unix" },
+]
+
+[open]
+prepend_rules = [
+  { url = "*.zip", use = [
+    "extract",
+    "reveal",
+  ] },
+  { mime = "application/{x-,pie-,x-pie-,}executable", use = [
+    "execute",
+    "reveal",
+  ] },
+  { url = "*.AppImage", use = [
+    "execute",
+    "reveal",
+  ] },
 ]
 
 [plugin]
