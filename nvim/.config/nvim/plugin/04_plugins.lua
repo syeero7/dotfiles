@@ -222,7 +222,7 @@ now_if_args(function()
   add({ 'https://github.com/neovim/nvim-lspconfig' })
 
   vim.lsp.enable({
-    "vtsls",
+    "tsc",
     "oxlint",
     "lua_ls",
     "gopls",
