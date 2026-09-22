@@ -12,7 +12,11 @@ shopt -s checkwinsize
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-export EDITOR="/usr/bin/nvim:$HOME/.local/bin/nvim"
+EDITOR="/usr/bin/nvim"
+if [ ! -f "$EDITOR" ]; then
+  EDITOR=":$HOME/.local/bin/nvim"
+fi
+export EDITOR
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
