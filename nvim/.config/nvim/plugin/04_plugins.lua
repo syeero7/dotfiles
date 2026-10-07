@@ -132,7 +132,6 @@ later(function()
   })
 end)
 
-later(function() require('mini.cmdline').setup() end)
 later(function() require('mini.diff').setup() end)
 later(function()
   local hipatterns = require('mini.hipatterns')
@@ -232,7 +231,7 @@ now_if_args(function()
     "svelte",
     "jsonls",
     "codebook",
-    "mpls"
+    "mpls",
   })
 
   vim.diagnostic.config({
