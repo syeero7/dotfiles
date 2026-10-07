@@ -232,6 +232,7 @@ now_if_args(function()
     "jsonls",
     "codebook",
     "mpls",
+    "bash_ls",
   })
 
   vim.diagnostic.config({
@@ -271,6 +272,8 @@ later(function()
       yaml = { "oxfmt" },
       toml = { "oxfmt" },
       markdown = { "oxfmt" },
+      bash = { "shfmt" },
+      sh = { "shfmt" }
     },
 
     formatters = {
