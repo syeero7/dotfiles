@@ -52,6 +52,8 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --color=spinner:#f7768e \
 "
 
+export _ZO_EXCLUDE_DIRS="/tmp:/mnt:/run/:media:$HOME/.cache"
+
 start_agent() {
   ssh-agent -s >"$AGENT_ENV"
   source "$AGENT_ENV" >/dev/null
