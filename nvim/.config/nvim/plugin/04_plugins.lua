@@ -184,6 +184,10 @@ later(function()
   end, { expr = true, desc = "expand or jump" })
   vim.keymap.set('i', '<S-Tab>', function() MiniSnippets.session.jump('prev') end)
 
+  Config.new_autocmd("User", "MiniSnippetsSessionJump", function(args)
+    if args.data.tabstop_to == '0' then MiniSnippets.session.stop() end
+  end, "Stop session immediately after jumping to final tab-stop")
+
   MiniSnippets.start_lsp_server()
 end)
 
