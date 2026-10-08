@@ -153,19 +153,36 @@ later(function() require('mini.pairs').setup({ modes = { command = true } }) end
 later(function() require('mini.pick').setup() end)
 later(function() require('mini.surround').setup() end)
 later(function()
-  local latex_patterns = { 'latex/**/*.json', '**/latex.json' }
   local lang_patterns = {
-    tex = latex_patterns,
-    plaintex = latex_patterns,
     markdown_inline = { 'markdown.json' },
   }
 
   local snippets = require('mini.snippets')
   snippets.setup({
-    snippets = {
-      snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
-    },
+    mappings = { expand = '', jump_next = '', jump_prev = '' },
+    snippets = { snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }) },
+    expand = {
+      match = function(snips)
+        -- Do not match with whitespace to cursor's left
+        return snippets.default_match(snips, { pattern_fuzzy = '%S+' })
+      end,
+    }
   })
+
+  vim.keymap.set('i', '<Tab>', function()
+    if #MiniSnippets.expand({ insert = false }) > 0 then
+      vim.schedule(MiniSnippets.expand)
+      return ''
+    end
+
+    if MiniSnippets.session.get() ~= nil then
+      MiniSnippets.session.jump('next')
+      return ''
+    end
+
+    return '\t'
+  end, { expr = true, desc = "expand or jump" })
+  vim.keymap.set('i', '<S-Tab>', function() MiniSnippets.session.jump('prev') end)
 
   MiniSnippets.start_lsp_server()
 end)
