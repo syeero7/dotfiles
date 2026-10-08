@@ -188,6 +188,14 @@ later(function()
     if args.data.tabstop_to == '0' then MiniSnippets.session.stop() end
   end, "Stop session immediately after jumping to final tab-stop")
 
+  Config.new_autocmd("User", "MiniSnippetsSessionStart", function()
+    Config.autocmd_once("ModeChanged", "*:n", function()
+      while MiniSnippets.session.get() do
+        MiniSnippets.session.stop()
+      end
+    end)
+  end, "Stop all snippet sessions on Normal mode")
+
   MiniSnippets.start_lsp_server()
 end)
 
