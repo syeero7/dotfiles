@@ -42,7 +42,7 @@ exec mako
 exec_always pidof kanshi && kanshictl reload || kanshi
 
 # mute microphone
-exec sleep 5 && pactl set-source-mute "$(pactl get-default-source)" true &
+exec sleep 1 && pactl set-source-mute "$(pactl get-default-source)" true &
 
 # --- Styles ---
 font pango:'Hack Nerd Font' 12
