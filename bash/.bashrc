@@ -27,8 +27,6 @@ if [[ ":$PATH:" != *":$PNPM_HOME/bin:"* ]]; then
   export PATH="$PNPM_HOME/bin:$PATH"
 fi
 
-AGENT_ENV="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.env"
-
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --highlight-line \
   --info=inline-right \
@@ -54,20 +52,7 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 
 export _ZO_EXCLUDE_DIRS="/tmp:/mnt:/run/:media:$HOME/.cache"
 
-start_agent() {
-  ssh-agent -s >"$AGENT_ENV"
-  source "$AGENT_ENV" >/dev/null
-}
-
-if [ -f "$AGENT_ENV" ]; then
-  source "$AGENT_ENV" >/dev/null
-  ps -p "$SSH_AGENT_PID" >/dev/null 2>&1 || start_agent
-else
-  start_agent
-fi
-
-unset AGENT_ENV
-unset -f start_agent
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 append_to_path() {
   if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then

@@ -44,6 +44,9 @@ exec_always pidof kanshi && kanshictl reload || kanshi
 # mute microphone
 exec sleep 1 && pactl set-source-mute "$(pactl get-default-source)" true &
 
+exec systemctl --user import-environment XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS
+# systemctl --user enable --now ssh-agent
+
 # --- Styles ---
 font pango:'Hack Nerd Font' 12
 output * bg ./wallpaper.jpg  fill
