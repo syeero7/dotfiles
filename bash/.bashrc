@@ -18,10 +18,6 @@ if [ ! -f "$EDITOR" ]; then
 fi
 export EDITOR
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
 export PNPM_HOME="$HOME/.local/share/pnpm"
 if [[ ":$PATH:" != *":$PNPM_HOME/bin:"* ]]; then
   export PATH="$PNPM_HOME/bin:$PATH"
@@ -66,8 +62,8 @@ append_to_path "$HOME/go/bin"
 
 unset -f append_to_path
 
-function _cmd_v() {
-  echo -e '\033[01;7;33m COMMAND: '"$*"'\n\033[00m'
+_cmd_v() {
+  echo -e '\033[01;7;33m '"$*"' \n\033[00m'
   "$@"
 }
 
@@ -92,15 +88,14 @@ alias mkx='_cmd_v chmod -v +x'
 alias aw='_cmd_v alacritty msg create-window --working-directory $PWD'
 alias zts='_cmd_v zig build test --summary all'
 
-function _get_git_branch() {
-  output="$(git branch --show-current 2>/dev/null)"
-  if [ $? -eq 0 ]; then
+_get_git_branch() {
+  local output
+  if output=$(git branch --show-current 2>/dev/null); then
     echo '   '"$output"
   fi
-  unset output
 }
 
-function _bash_prompt() {
+_bash_prompt() {
   PS1='\[\033[01;36m\]\W\[\033[01;31m\]$(_get_git_branch)\n\[\033[01;32m\]> \[\033[00m\]'
 
 }
